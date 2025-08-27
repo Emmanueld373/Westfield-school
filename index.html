@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westfield Academy - Student Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                WESTFIELD SCHOOL
+            </div>
+            <a href="landingpage.html" class="back">Back</a>
+            <p>Student Registration Portal</p>
+        </div>
+
+        <div class="form-container">
+            <div id="message"></div>
+            
+            <form id="registrationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth *</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender *</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="grade">Grade Level *</label>
+                        <select id="grade" name="grade" required>
+                            <option value="">Select Grade</option>
+                            <option value="kindergarten">Kindergarten</option>
+                            <option value="1st">1st Grade</option>
+                            <option value="2nd">2nd Grade</option>
+                            <option value="3rd">3rd Grade</option>
+                            <option value="4th">4th Grade</option>
+                            <option value="5th">5th Grade</option>
+                            <option value="6th">6th Grade</option>
+                            <option value="7th">7th Grade</option>
+                            <option value="8th">8th Grade</option>
+                            <option value="9th">9th Grade</option>
+                            <option value="10th">10th Grade</option>
+                            <option value="11th">11th Grade</option>
+                            <option value="12th">12th Grade</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentName">Parent/Guardian Name *</label>
+                        <input type="text" id="parentName" name="parentName" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="address">Address *</label>
+                        <textarea id="address" name="address" placeholder="Enter your full address" required></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="medicalInfo">Medical Information</label>
+                        <textarea id="medicalInfo" name="medicalInfo" placeholder="Any allergies, medical conditions, or special requirements (optional)"></textarea>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the terms and conditions and privacy policy *</label>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn">
+                        <span>Register Student</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing registration...</p>
+            </div>
+
+            <div class="student-list" id="studentList">
+                <h2>Registered Students</h2>
+                <div id="students"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

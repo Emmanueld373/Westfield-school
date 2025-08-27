@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westfield Academy - Student Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-message, .error-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .student-list {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e1e5e9;
+        }
+
+        .student-card {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .student-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Westfield Academy</h1>
+            <p>Student Registration Portal</p>
+        </div>
+
+        <div class="form-container">
+            <div id="message"></div>
+            
+            <form id="registrationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth *</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender *</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="grade">Grade Level *</label>
+                        <select id="grade" name="grade" required>
+                            <option value="">Select Grade</option>
+                            <option value="kindergarten">Kindergarten</option>
+                            <option value="1st">1st Grade</option>
+                            <option value="2nd">2nd Grade</option>
+                            <option value="3rd">3rd Grade</option>
+                            <option value="4th">4th Grade</option>
+                            <option value="5th">5th Grade</option>
+                            <option value="6th">6th Grade</option>
+                            <option value="7th">7th Grade</option>
+                            <option value="8th">8th Grade</option>
+                            <option value="9th">9th Grade</option>
+                            <option value="10th">10th Grade</option>
+                            <option value="11th">11th Grade</option>
+                            <option value="12th">12th Grade</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentName">Parent/Guardian Name *</label>
+                        <input type="text" id="parentName" name="parentName" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="address">Address *</label>
+                        <textarea id="address" name="address" placeholder="Enter your full address" required></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="medicalInfo">Medical Information</label>
+                        <textarea id="medicalInfo" name="medicalInfo" placeholder="Any allergies, medical conditions, or special requirements (optional)"></textarea>
+                    </div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the terms and conditions and privacy policy *</label>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn">
+                        <span>Register Student</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing registration...</p>
+            </div>
+
+            <div class="student-list" id="studentList">
+                <h2>Registered Students</h2>
+                <div id="students"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // In-memory storage for demo purposes
+        let students = [];
+
+        // Form elements
+        const form = document.getElementById('registrationForm');
+        const messageDiv = document.getElementById('message');
+        const loadingDiv = document.getElementById('loading');
+        const studentsDiv = document.getElementById('students');
+
+        // Form submission handler
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            loadingDiv.style.display = 'block';
+            form.style.display = 'none';
+            
+            try {
+                // Get form data
+                const formData = new FormData(form);
+                const studentData = {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    dateOfBirth: formData.get('dateOfBirth'),
+                    gender: formData.get('gender'),
+                    grade: formData.get('grade'),
+                    parentName: formData.get('parentName'),
+                    address: formData.get('address'),
+                    medicalInfo: formData.get('medicalInfo')
+                };
+                
+                // Send data to backend API
+                const response = await fetch('/api/students', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(studentData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Failed to register student');
+                }
+                
+                // Show success message
+                showMessage(result.message || 'Student registered successfully! Welcome to Westfield Academy.', 'success');
+                
+                // Reset form
+                form.reset();
+                
+                // Reload student list from database
+                await loadStudents();
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showMessage(error.message || 'Failed to register student. Please try again.', 'error');
+            } finally {
+                // Hide loading and show form
+                loadingDiv.style.display = 'none';
+                form.style.display = 'block';
+            }
+        });
+
+        // Display message function
+        function showMessage(message, type) {
+            messageDiv.innerHTML = `<div class="${type}-message">${message}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Load students from database
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/students');
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    students = result.data;
+                    displayStudents();
+                } else {
+                    console.error('Failed to load students:', result.message);
+                    studentsDiv.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 20px;">Failed to load students from database.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading students:', error);
+                studentsDiv.innerHTML = '<p style="text-align: center; color: #dc3545; padding: 20px;">Error connecting to database.</p>';
+            }
+        }
+
+        // Display students function
+        function displayStudents() {
+            if (students.length === 0) {
+                studentsDiv.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">No students registered yet.</p>';
+                return;
+            }
+            
+            const studentsHTML = students.map(student => {
+                // Format date for display
+                const birthDate = new Date(student.date_of_birth || student.dateOfBirth).toLocaleDateString();
+                const regDate = new Date(student.registration_date || student.registrationDate || student.created_at).toLocaleDateString();
+                
+                return `
+                <div class="student-card">
+                    <div class="student-name">${student.first_name || student.firstName} ${student.last_name || student.lastName}</div>
+                    <div class="student-details">
+                        <div><strong>Email:</strong> ${student.email}</div>
+                        <div><strong>Phone:</strong> ${student.phone}</div>
+                        <div><strong>Grade:</strong> ${student.grade}</div>
+                        <div><strong>Gender:</strong> ${student.gender}</div>
+                        <div><strong>Date of Birth:</strong> ${birthDate}</div>
+                        <div><strong>Parent/Guardian:</strong> ${student.parent_name || student.parentName}</div>
+                        <div><strong>Registration Date:</strong> ${regDate}</div>
+                        ${(student.medical_info || student.medicalInfo) ? `<div><strong>Medical Info:</strong> ${student.medical_info || student.medicalInfo}</div>` : ''}
+                    </div>
+                </div>
+            `;
+            }).join('');
+            
+            studentsDiv.innerHTML = studentsHTML;
+        }
+
+        // Initialize - load students from database
+        loadStudents();
+
+        // Add form animations
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('label').style.color = '#4facfe';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('label').style.color = '#333';
+            });
+        });
+    </script>
+</body>
+</html>
